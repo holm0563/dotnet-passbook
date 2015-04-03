@@ -14,7 +14,7 @@ Instead of developing your own solution, I have created [PassVerse](http://www.p
 
 ## Requirements
 
-The solution requires .Net 4.5 and Visual Studio 2012 or higher.
+The solution requires .Net 4 and Visual Studio 2012 or higher. (*Note the main branch requires .NET 4.5 and its zip file libraries.)
 
 ##Certificates
 
