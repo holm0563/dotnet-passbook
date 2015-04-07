@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Passbook.Generator.Fields;
@@ -79,18 +79,18 @@ namespace Passbook.Generator
         /// <summary>
         /// Optional. Foreground color of the pass, specified as a CSS-style RGB triple. For example, rgb(100, 10, 110).
         /// </summary>
-        public string ForegroundColor { get; set; }
+        public Color? ForegroundColor { get; set; }
 
         /// <summary>
         /// Optional. Background color of the pass, specified as an CSS-style RGB triple. For example, rgb(23, 187, 82).
         /// </summary>
-        public string BackgroundColor { get; set; }
+        public Color? BackgroundColor { get; set; }
 
         /// <summary>
         /// Optional. Color of the label text, specified as a CSS-style RGB triple. For example, rgb(255, 255, 255).
         /// If omitted, the label color is determined automatically.
         /// </summary>
-        public string LabelColor { get; set; }
+        public Color? LabelColor { get; set; }
 
         /// <summary>
         /// Optional. Text displayed next to the logo on the pass.
@@ -462,22 +462,22 @@ namespace Passbook.Generator
 
         private void WriteAppearanceKeys(JsonWriter writer, PassGeneratorRequest request)
         {
-            if (request.ForegroundColor != null)
+            if (request.ForegroundColor.HasValue)
             {
                 writer.WritePropertyName("foregroundColor");
-                writer.WriteValue(ConvertColor(request.ForegroundColor));
+                writer.WriteValue(ConvertColor(request.ForegroundColor.Value));
             }
 
-            if (request.BackgroundColor != null)
+            if (request.BackgroundColor.HasValue)
             {
                 writer.WritePropertyName("backgroundColor");
-                writer.WriteValue(ConvertColor(request.BackgroundColor));
+                writer.WriteValue(ConvertColor(request.BackgroundColor.Value));
             }
 
-            if (request.LabelColor != null)
+            if (request.LabelColor.HasValue)
             {
                 writer.WritePropertyName("labelColor");
-                writer.WriteValue(ConvertColor(request.LabelColor));
+                writer.WriteValue(ConvertColor(request.LabelColor.Value));
             }
 
             if (request.SuppressStripShine.HasValue)
@@ -555,17 +555,9 @@ namespace Passbook.Generator
             writer.WriteEndArray();
         }
 
-        private string ConvertColor(string colour)
+        private string ConvertColor(Color colour)
         {
-            if (colour != null && colour.Length > 0 && colour.Substring(0, 1) == "#")
-            {
-                Color c = ColorTranslator.FromHtml(colour);
-                return string.Format("rgb({0},{1},{2})", c.R, c.G, c.B);
-            }
-            else
-            {
-                return colour;
-            }
+            return string.Format("rgb({0},{1},{2})", colour.R, colour.G, colour.B);
         }
 
         #endregion
